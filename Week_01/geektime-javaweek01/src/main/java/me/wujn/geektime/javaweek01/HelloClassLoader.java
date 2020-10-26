@@ -49,12 +49,11 @@ public class HelloClassLoader extends ClassLoader {
         }
         String filePath = CLASS_FILE_PATH + "/" + name + CLASS_EXTENSION;
         // load class file
-        InputStream stream = getResourceAsStream(filePath);
-        if (stream == null) {
-            System.out.println("class file not found");
-            return null;
-        }
-        try {
+        try (InputStream stream = getResourceAsStream(filePath)) {
+            if (stream == null) {
+                System.out.println("class file not found");
+                return null;
+            }
             byte[] byteArray = stream2Byte(stream);
             if (byteArray != null) {
                 for (int i = 0; i < byteArray.length; i++) {
